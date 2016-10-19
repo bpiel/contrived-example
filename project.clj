@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [liberator "0.14.1"]
                  [compojure "1.5.1"]
-                 [ring/ring-jetty-adapter "1.5.0"]]
+                 [ring/ring-jetty-adapter "1.5.0"]
+                 [ring/ring-json "0.4.0"]]
   :main ^:skip-aot contrived-example.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

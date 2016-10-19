@@ -7,6 +7,14 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.params :as mw-params]))
 
+(def machine-state {:inventory {:a1 {:name :taco
+                                     :price 0.85
+                                     :qty 10}}
+                    :coins-inserted []
+                    :coins-returned []
+                    :dispensed nil
+                    :err-msg nil})
+
 (defn slow-poke
   [_]
   (Thread/sleep 50))
@@ -18,18 +26,19 @@
 (defn vend
   [ctx]
   (questionable)
-  :TACO!)
+  {::response "WAT"})
 
 (defn handle-created
   [ctx]
-  #_(::response ctx)
-  "hi")
+  (::response ctx))
 
 (l/defresource taco-vending-machine
   :allowed-methods [:post :get]
   :post! vend
   :handle-created handle-created
-  :available-languages ["es"])
+  :available-media-types ["application/json"]
+  :available-languages ["es"]
+  )
 
 (c/defroutes app-routes
   (c/POST "/taco" [] taco-vending-machine))
