@@ -1,30 +1,15 @@
 (ns contrived-example.core
-  (:require [contrived-example.inner-workings :as iw]))
-
-(defn insert-coin
-  [machine coin]
-  (update-in machine
-             [:coins-inserted]
-             conj
-             coin))
-
-(defn press-button
-  [machine button]
-  (if (iw/valid-selection machine button)
-    (iw/process-transaction machine button)
-    (iw/show-err-message machine)))
-
-(defn retrieve-dispensed
-  [machine]
-  [(:dispensed machine)
-   (dissoc machine :dispensed)])
-
-(defn retrieve-change-returned
-  [machine]
-  [(:change-returned machine)
-   (dissoc machine :change-returned)])
+  (:require [contrived-example.server :as server]))
 
 (defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
+  ([port-str]
+   (let [port (Integer/parseInt port-str)]
+     (println (format "Starting http server on port %s" port))
+     (server/start {:port port})
+     (println (format "STARTED http server on port %s" port))))
+  ([]
+   (-main "8000")))
+
+#_ (-main)
+
+#_ (smw/register-view! :lib-decide (sv/pred-sel-pairs->view [[[:name #"decide"] {:return true :selects {:name [:arg-map 'name]}}]]))
